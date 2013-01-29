@@ -1,4 +1,5 @@
-Signed-off-by: Random J Developer <random@developer.example.org>
+
+Signed-off-by: Eugene Scherbinin <escherbinin@yandex.ru>
 ---
 Index: target/linux/ramips/image/Makefile
 ===================================================================
