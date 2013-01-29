@@ -1,6 +1,3 @@
-
-Signed-off-by: Eugene Scherbinin <escherbinin@yandex.ru>
----
 Index: target/linux/ramips/files/arch/mips/ralink/rt305x/Kconfig
 ===================================================================
 --- target/linux/ramips/files/arch/mips/ralink/rt305x/Kconfig	(revision 35342)

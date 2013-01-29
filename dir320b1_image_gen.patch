@@ -1,6 +1,3 @@
-
-Signed-off-by: Eugene Scherbinin <escherbinin@yandex.ru>
----
 Index: target/linux/ramips/image/Makefile
 ===================================================================
 --- target/linux/ramips/image/Makefile	(revision 35363)

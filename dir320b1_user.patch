@@ -1,6 +1,3 @@
-
-Signed-off-by: Eugene Scherbinin <escherbinin@yandex.ru>
----
 Index: target/linux/ramips/base-files/lib/ramips.sh
 ===================================================================
 --- target/linux/ramips/base-files/lib/ramips.sh	(revision 35342)
