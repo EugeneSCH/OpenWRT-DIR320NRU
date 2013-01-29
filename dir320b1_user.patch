@@ -1,0 +1,100 @@
+Signed-off-by: Random J Developer <random@developer.example.org>
+---
+Index: target/linux/ramips/base-files/lib/ramips.sh
+===================================================================
+--- target/linux/ramips/base-files/lib/ramips.sh	(revision 35342)
++++ target/linux/ramips/base-files/lib/ramips.sh	(working copy)
+@@ -86,6 +86,9 @@
+ 	*"DIR-300 B1")
+ 		name="dir-300-b1"
+ 		;;
++	*"DIR-320 B1")
++		name="dir-320-b1"
++		;;
+ 	*"DIR-600 B1")
+ 		name="dir-600-b1"
+ 		;;
+Index: target/linux/ramips/base-files/lib/upgrade/platform.sh
+===================================================================
+--- target/linux/ramips/base-files/lib/upgrade/platform.sh	(revision 35342)
++++ target/linux/ramips/base-files/lib/upgrade/platform.sh	(working copy)
+@@ -24,6 +24,7 @@
+ 	broadway | \
+ 	carambola | \
+ 	dir-300-b1 | \
++	dir-320-b1 | \
+ 	dir-600-b1 | \
+ 	dir-600-b2 | \
+ 	dir-615-h1 | \
+Index: target/linux/ramips/base-files/lib/preinit/06_set_iface_mac
+===================================================================
+--- target/linux/ramips/base-files/lib/preinit/06_set_iface_mac	(revision 35342)
++++ target/linux/ramips/base-files/lib/preinit/06_set_iface_mac	(working copy)
+@@ -19,6 +19,7 @@
+ 	bc2 |\
+ 	broadway |\
+ 	dir-620-a1 |\
++	dir-320-b1 |\
+ 	esr-9753 |\
+ 	freestation5 |\
+ 	nw718 |\
+Index: target/linux/ramips/base-files/etc/hotplug.d/firmware/10-rt2x00-eeprom
+===================================================================
+--- target/linux/ramips/base-files/etc/hotplug.d/firmware/10-rt2x00-eeprom	(revision 35342)
++++ target/linux/ramips/base-files/etc/hotplug.d/firmware/10-rt2x00-eeprom	(working copy)
+@@ -64,6 +64,7 @@
+ 	carambola | \
+ 	dir-615-h1 | \
+ 	dir-620-a1 | \
++	dir-320-b1 | \
+ 	esr-9753 | \
+ 	fonera20n | \
+ 	rt-n13u | \
+Index: target/linux/ramips/base-files/etc/uci-defaults/01_leds
+===================================================================
+--- target/linux/ramips/base-files/etc/uci-defaults/01_leds	(revision 35342)
++++ target/linux/ramips/base-files/etc/uci-defaults/01_leds	(working copy)
+@@ -50,6 +50,12 @@
+ 		ucidef_set_led_default "wan" "WAN LED (amber)" "d-link:amber:wan" "1"
+ 		set_wifi_led "rt2800pci-phy0::radio"
+ 		;;
++	dir-320-b1)
++		# ANDed with vlan switch port 4 led state
++		ucidef_set_led_default "wan" "WAN LED (amber)" "d-link:amber:wan" "1"
++		set_wifi_led "rt2800pci-phy0::radio"
++		set_usb_led "d-link:green:usb"
++		;;
+ 	dir-615-d|\
+ 	dir-615-h1)
+ 		ucidef_set_led_default "status" "Status LED (amber)" "d-link:amber:status" "0"
+Index: target/linux/ramips/base-files/etc/uci-defaults/02_network
+===================================================================
+--- target/linux/ramips/base-files/etc/uci-defaults/02_network	(revision 35342)
++++ target/linux/ramips/base-files/etc/uci-defaults/02_network	(working copy)
+@@ -183,6 +183,7 @@
+ 		wan_mac=$(/usr/sbin/maccalc add "$lan_mac" 1)
+ 		;;
+ 
++        dir-320-b1|\
+ 	dir-620-a1)
+ 		lan_mac=$(ramips_get_mac_binary factory 4)
+ 		lan_mac=$(maccalc or "$lan_mac" "02:00:00:00:00:00")
+Index: target/linux/ramips/base-files/etc/diag.sh
+===================================================================
+--- target/linux/ramips/base-files/etc/diag.sh	(revision 35342)
++++ target/linux/ramips/base-files/etc/diag.sh	(working copy)
+@@ -42,7 +42,13 @@
+ 	br6524n)
+ 		status_led="edimax:blue:power"
+ 		;;
+-	dir-300-b1 | dir-600-b1 | dir-600-b2 | dir-615-h1 | dir-615-d | dir-620-a1)
++	dir-300-b1|\
++	dir-320-b1|\
++	dir-600-b1|\
++	dir-600-b2|\
++	dir-615-h1|\
++	dir-615-d|\
++	dir-620-a1)
+ 		status_led="d-link:green:status"
+ 		;;
+ 	dir-645)
