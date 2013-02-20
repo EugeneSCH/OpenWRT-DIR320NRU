@@ -1,8 +1,8 @@
 Index: target/linux/ramips/base-files/lib/ramips.sh
 ===================================================================
---- target/linux/ramips/base-files/lib/ramips.sh	(revision 35342)
+--- target/linux/ramips/base-files/lib/ramips.sh	(revision 35691)
 +++ target/linux/ramips/base-files/lib/ramips.sh	(working copy)
-@@ -86,6 +86,9 @@
+@@ -52,6 +52,9 @@
  	*"DIR-300 B1")
  		name="dir-300-b1"
  		;;
@@ -14,7 +14,7 @@ Index: target/linux/ramips/base-files/lib/ramips.sh
  		;;
 Index: target/linux/ramips/base-files/lib/upgrade/platform.sh
 ===================================================================
---- target/linux/ramips/base-files/lib/upgrade/platform.sh	(revision 35342)
+--- target/linux/ramips/base-files/lib/upgrade/platform.sh	(revision 35691)
 +++ target/linux/ramips/base-files/lib/upgrade/platform.sh	(working copy)
 @@ -24,6 +24,7 @@
  	broadway | \
@@ -26,9 +26,9 @@ Index: target/linux/ramips/base-files/lib/upgrade/platform.sh
  	dir-615-h1 | \
 Index: target/linux/ramips/base-files/lib/preinit/06_set_iface_mac
 ===================================================================
---- target/linux/ramips/base-files/lib/preinit/06_set_iface_mac	(revision 35342)
+--- target/linux/ramips/base-files/lib/preinit/06_set_iface_mac	(revision 35691)
 +++ target/linux/ramips/base-files/lib/preinit/06_set_iface_mac	(working copy)
-@@ -19,6 +19,7 @@
+@@ -20,6 +20,7 @@
  	bc2 |\
  	broadway |\
  	dir-620-a1 |\
@@ -38,9 +38,9 @@ Index: target/linux/ramips/base-files/lib/preinit/06_set_iface_mac
  	nw718 |\
 Index: target/linux/ramips/base-files/etc/hotplug.d/firmware/10-rt2x00-eeprom
 ===================================================================
---- target/linux/ramips/base-files/etc/hotplug.d/firmware/10-rt2x00-eeprom	(revision 35342)
+--- target/linux/ramips/base-files/etc/hotplug.d/firmware/10-rt2x00-eeprom	(revision 35691)
 +++ target/linux/ramips/base-files/etc/hotplug.d/firmware/10-rt2x00-eeprom	(working copy)
-@@ -64,6 +64,7 @@
+@@ -65,6 +65,7 @@
  	carambola | \
  	dir-615-h1 | \
  	dir-620-a1 | \
@@ -50,9 +50,9 @@ Index: target/linux/ramips/base-files/etc/hotplug.d/firmware/10-rt2x00-eeprom
  	rt-n13u | \
 Index: target/linux/ramips/base-files/etc/uci-defaults/01_leds
 ===================================================================
---- target/linux/ramips/base-files/etc/uci-defaults/01_leds	(revision 35342)
+--- target/linux/ramips/base-files/etc/uci-defaults/01_leds	(revision 35691)
 +++ target/linux/ramips/base-files/etc/uci-defaults/01_leds	(working copy)
-@@ -50,6 +50,12 @@
+@@ -53,6 +53,12 @@
  		ucidef_set_led_default "wan" "WAN LED (amber)" "d-link:amber:wan" "1"
  		set_wifi_led "rt2800pci-phy0::radio"
  		;;
@@ -67,32 +67,26 @@ Index: target/linux/ramips/base-files/etc/uci-defaults/01_leds
  		ucidef_set_led_default "status" "Status LED (amber)" "d-link:amber:status" "0"
 Index: target/linux/ramips/base-files/etc/uci-defaults/02_network
 ===================================================================
---- target/linux/ramips/base-files/etc/uci-defaults/02_network	(revision 35342)
+--- target/linux/ramips/base-files/etc/uci-defaults/02_network	(revision 35691)
 +++ target/linux/ramips/base-files/etc/uci-defaults/02_network	(working copy)
-@@ -183,6 +183,7 @@
- 		wan_mac=$(/usr/sbin/maccalc add "$lan_mac" 1)
+@@ -181,6 +181,7 @@
+ 		wan_mac=$(macaddr_add "$lan_mac" 1)
  		;;
  
 +        dir-320-b1|\
  	dir-620-a1)
- 		lan_mac=$(ramips_get_mac_binary factory 4)
- 		lan_mac=$(maccalc or "$lan_mac" "02:00:00:00:00:00")
+ 		lan_mac=$(mtd_get_mac_binary factory 4)
+ 		lan_mac=$(macaddr_setbit_la "$lan_mac")
 Index: target/linux/ramips/base-files/etc/diag.sh
 ===================================================================
---- target/linux/ramips/base-files/etc/diag.sh	(revision 35342)
+--- target/linux/ramips/base-files/etc/diag.sh	(revision 35691)
 +++ target/linux/ramips/base-files/etc/diag.sh	(working copy)
-@@ -42,7 +42,13 @@
- 	br6524n)
- 		status_led="edimax:blue:power"
+@@ -21,7 +21,7 @@
+ 	br6425)
+ 		status_led="edimax:green:power"
  		;;
 -	dir-300-b1 | dir-600-b1 | dir-600-b2 | dir-615-h1 | dir-615-d | dir-620-a1)
-+	dir-300-b1|\
-+	dir-320-b1|\
-+	dir-600-b1|\
-+	dir-600-b2|\
-+	dir-615-h1|\
-+	dir-615-d|\
-+	dir-620-a1)
++	dir-300-b1 | dir-320-b1 | dir-600-b1 | dir-600-b2 | dir-615-h1 | dir-615-d | dir-620-a1)
  		status_led="d-link:green:status"
  		;;
  	dir-645)
